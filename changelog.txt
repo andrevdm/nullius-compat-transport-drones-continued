@@ -1,4 +1,16 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.1.1
+Date: 2026-06-06
+  Features:
+    - Added an optional startup setting to move transport drones to the traffic control era.
+  Changes:
+    - Existing saves explicitly refresh early transport system recipe unlocks when early transport drones is enabled.
+  Early transport drones:
+    - Changes transport system prerequisites to traffic control, personal transportation 1, and pumping 2.
+    - Moves the basic transport drone depot chain to the initial transport system technology.
+    - Replaces the request depot and drone dispatcher hangar requirements with train/circuit-era components.
+
+---------------------------------------------------------------------------------------------------
 Version: 0.1.0
 Date: 2026-05-29
   Features:

@@ -1,6 +1,7 @@
 -- Nullius + Transport Drones Continued compatibility.
 
 local has_transport_drones = mods["Transport_Drones_Continued"]
+local early_transport_drones = settings.startup["nullius-early-transport-drones"].value
 
 if has_transport_drones then
   assert(data.raw["item-subgroup"]["transport-drones"] ~= nil, "Nullius Transport Drones compatibility requires item-subgroup[transport-drones]")
@@ -39,14 +40,30 @@ if has_transport_drones then
   end
 
   data.raw.technology["transport-system"].order = "nullius-dg"
-  data.raw.technology["transport-system"].effects = {
+  local transport_system_effects = {
     {type = "unlock-recipe", recipe = "transport-drone"},
     {type = "unlock-recipe", recipe = "supply-depot"},
     {type = "unlock-recipe", recipe = "road"}
   }
-  data.raw.technology["transport-system"].prerequisites = {
-    "nullius-robotics-1", "nullius-personal-transportation-1",
-    "nullius-checkpoint-compressed-nitrogen" }
+  if early_transport_drones then
+    transport_system_effects = {
+      {type = "unlock-recipe", recipe = "transport-drone"},
+      {type = "unlock-recipe", recipe = "supply-depot"},
+      {type = "unlock-recipe", recipe = "request-depot"},
+      {type = "unlock-recipe", recipe = "fluid-depot"},
+      {type = "unlock-recipe", recipe = "buffer-depot"},
+      {type = "unlock-recipe", recipe = "fuel-depot"},
+      {type = "unlock-recipe", recipe = "road"}
+    }
+    data.raw.technology["transport-system"].prerequisites = {
+      "nullius-traffic-control", "nullius-personal-transportation-1",
+      "nullius-pumping-2" }
+  else
+    data.raw.technology["transport-system"].prerequisites = {
+      "nullius-robotics-1", "nullius-personal-transportation-1",
+      "nullius-checkpoint-compressed-nitrogen" }
+  end
+  data.raw.technology["transport-system"].effects = transport_system_effects
   data.raw.technology["transport-system"].unit = {
     count = 100, time = 30,
     ingredients = {
@@ -68,10 +85,14 @@ if has_transport_drones then
 
   if (data.raw.technology["transport-fluids"] ~= nil) then
     data.raw.technology["transport-fluids"].order = "nullius-dh"
-    data.raw.technology["transport-fluids"].effects = {
-      {type = "unlock-recipe", recipe = "fluid-depot"},
-      {type = "unlock-recipe", recipe = "request-depot"}
-    }
+    if early_transport_drones then
+      data.raw.technology["transport-fluids"].effects = {}
+    else
+      data.raw.technology["transport-fluids"].effects = {
+        {type = "unlock-recipe", recipe = "fluid-depot"},
+        {type = "unlock-recipe", recipe = "request-depot"}
+      }
+    end
     data.raw.technology["transport-fluids"].prerequisites = {
       "transport-system", "nullius-pumping-2" }
     data.raw.technology["transport-fluids"].unit = {
@@ -86,10 +107,14 @@ if has_transport_drones then
 
   if (data.raw.technology["transport-buffering"] ~= nil) then
     data.raw.technology["transport-buffering"].order = "nullius-di"
-    data.raw.technology["transport-buffering"].effects = {
-      {type = "unlock-recipe", recipe = "buffer-depot"},
-      {type = "unlock-recipe", recipe = "fuel-depot"}
-    }
+    if early_transport_drones then
+      data.raw.technology["transport-buffering"].effects = {}
+    else
+      data.raw.technology["transport-buffering"].effects = {
+        {type = "unlock-recipe", recipe = "buffer-depot"},
+        {type = "unlock-recipe", recipe = "fuel-depot"}
+      }
+    end
     if dispatcher_enabled then
       table.insert(data.raw.technology["transport-buffering"].effects,
         {type = "unlock-recipe", recipe = "drone-dispatcher"})
@@ -373,15 +398,26 @@ if has_transport_drones then
   })
 
   set_transport_drone_item({name = "request-depot", order = "nullius-e", stack_size = 20})
+  local request_depot_ingredients = {
+    {type = "item", name = "fluid-depot", amount = 1},
+    {type = "item", name = "nullius-hangar-1", amount = 1}
+  }
+  if early_transport_drones then
+    request_depot_ingredients = {
+      {type = "item", name = "fluid-depot", amount = 1},
+      {type = "item", name = "train-stop", amount = 1},
+      {type = "item", name = "nullius-sensor-1", amount = 1},
+      {type = "item", name = "arithmetic-combinator", amount = 1},
+      {type = "item", name = "programmable-speaker", amount = 1},
+      {type = "item", name = "nullius-red-wire", amount = 2}
+    }
+  end
   set_transport_drone_recipe({
     name = "request-depot",
     order = "nullius-e",
     category = "large-crafting",
     time = 6,
-    ingredients = {
-      {type = "item", name = "fluid-depot", amount = 1},
-      {type = "item", name = "nullius-hangar-1", amount = 1}
-    }
+    ingredients = request_depot_ingredients
   })
 
   set_transport_drone_item({name = "buffer-depot", order = "nullius-f", stack_size = 20})
@@ -451,17 +487,28 @@ if has_transport_drones then
   })
 
   set_transport_drone_item({name = "drone-dispatcher", order = "nullius-ha", stack_size = 20})
+  local drone_dispatcher_ingredients = {
+    {type = "item", name = "fuel-depot", amount = 1},
+    {type = "item", name = "nullius-hangar-1", amount = 1},
+    {type = "item", name = "arithmetic-combinator", amount = 2},
+    {type = "item", name = "nullius-green-wire", amount = 4}
+  }
+  if early_transport_drones then
+    drone_dispatcher_ingredients = {
+      {type = "item", name = "fuel-depot", amount = 1},
+      {type = "item", name = "train-stop", amount = 1},
+      {type = "item", name = "nullius-sensor-1", amount = 2},
+      {type = "item", name = "arithmetic-combinator", amount = 2},
+      {type = "item", name = "programmable-speaker", amount = 1},
+      {type = "item", name = "nullius-green-wire", amount = 4}
+    }
+  end
   set_transport_drone_recipe({
     name = "drone-dispatcher",
     order = "nullius-ha",
     category = "large-crafting",
     time = 8,
-    ingredients = {
-      {type = "item", name = "fuel-depot", amount = 1},
-      {type = "item", name = "nullius-hangar-1", amount = 1},
-      {type = "item", name = "arithmetic-combinator", amount = 2},
-      {type = "item", name = "nullius-green-wire", amount = 4}
-    }
+    ingredients = drone_dispatcher_ingredients
   })
 
   set_transport_drone_item({name = "road-network-reader", order = "nullius-i", stack_size = 50})
@@ -536,4 +583,3 @@ if has_transport_drones then
     {type = "item", name = "road-network-reader", amount = 1}
   }
 end
-

@@ -15,6 +15,16 @@ local transport_drone_recipe_names = {
   "transport-depot-writer",
 }
 
+local transport_system_recipe_names = {
+  "transport-drone",
+  "road",
+  "supply-depot",
+  "request-depot",
+  "buffer-depot",
+  "fluid-depot",
+  "fuel-depot",
+}
+
 local function capture_enabled_transport_drone_recipes(force)
   local enabled = {}
   for _, name in pairs(transport_drone_recipe_names) do
@@ -50,6 +60,18 @@ local function unlock_researched_tech_recipes(force)
   end
 end
 
+local function unlock_transport_system_recipes(force)
+  if not settings.startup["nullius-early-transport-drones"].value then return end
+  local technology = force.technologies["transport-system"]
+  if ((technology == nil) or (not technology.researched)) then return end
+  for _, name in pairs(transport_system_recipe_names) do
+    local recipe = force.recipes[name]
+    if recipe then
+      recipe.enabled = true
+    end
+  end
+end
+
 local function refresh_force(force)
   -- Needed when adding this compatibility mod to an existing Nullius save:
   -- recipe prototypes and technology effects changed after the save was created.
@@ -65,6 +87,7 @@ local function refresh_force(force)
     unlock_researched_tech_recipes(force)
   end
   restore_enabled_recipes(force, previously_enabled)
+  unlock_transport_system_recipes(force)
 end
 
 local function refresh_all_forces()

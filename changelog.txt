@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.2.2
+Date: 2026-06-07
+  Changes:
+    - Early transport drones is now enabled by default for new saves.
+    - Drones research is not a blocker for other Nullius techs, but only when early mode is on.
+
+---------------------------------------------------------------------------------------------------
 Version: 0.2.1
 Date: 2026-06-07
   Features:

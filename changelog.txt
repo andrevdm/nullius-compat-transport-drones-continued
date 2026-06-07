@@ -1,5 +1,5 @@
 ---------------------------------------------------------------------------------------------------
-Version: 0.2.0
+Version: 0.2.1
 Date: 2026-06-07
   Features:
     - Added an optional startup setting to move transport drones to the traffic control era.

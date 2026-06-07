@@ -20,9 +20,7 @@ local transport_system_recipe_names = {
   "road",
   "supply-depot",
   "request-depot",
-  "buffer-depot",
   "fluid-depot",
-  "fuel-depot",
 }
 
 local function capture_enabled_transport_drone_recipes(force)

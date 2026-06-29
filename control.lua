@@ -20,7 +20,10 @@ local transport_system_recipe_names = {
   "road",
   "supply-depot",
   "request-depot",
+  "buffer-depot",
   "fluid-depot",
+  "fuel-depot",
+  "drone-dispatcher",
 }
 
 local function capture_enabled_transport_drone_recipes(force)
@@ -62,9 +65,16 @@ local function unlock_transport_system_recipes(force)
   if not settings.startup["nullius-early-transport-drones"].value then return end
   local technology = force.technologies["transport-system"]
   if ((technology == nil) or (not technology.researched)) then return end
+  if technology.prototype == nil then return end
+  local unlocked_by_technology = {}
+  for _, effect in pairs(technology.prototype.effects or {}) do
+    if effect.type == "unlock-recipe" and effect.recipe then
+      unlocked_by_technology[effect.recipe] = true
+    end
+  end
   for _, name in pairs(transport_system_recipe_names) do
     local recipe = force.recipes[name]
-    if recipe then
+    if recipe and unlocked_by_technology[name] then
       recipe.enabled = true
     end
   end

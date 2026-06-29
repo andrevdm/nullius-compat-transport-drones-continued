@@ -1,4 +1,11 @@
 ---------------------------------------------------------------------------------------------------
+Version: 0.2.4
+Date: 2026-06-29
+  Changes:
+    - Early transport drones now combines depot infrastructure unlocks into transport system.
+    - Early transport system now costs 200 research units.
+    - Existing saves with transport system researched receive the merged depot infrastructure unlocks.
+---------------------------------------------------------------------------------------------------
 Version: 0.2.3
 Date: 2026-06-07
   Changes:

@@ -1,4 +1,4 @@
-local has_transport_drones = mods["Transport_Drones_Continued"]
+local has_transport_drones = mods["Transport_Drones_Continued_Fixed"]
 
 local function get_drone_fuel_ingredient_name(recipe)
   if (recipe.ingredients == nil) then return end

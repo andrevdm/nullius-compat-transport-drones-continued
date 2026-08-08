@@ -1,6 +1,6 @@
 -- Nullius + Transport Drones Continued compatibility.
 
-local has_transport_drones = mods["Transport_Drones_Continued"]
+local has_transport_drones = mods["Transport_Drones_Continued_Fixed"]
 local early_transport_drones = settings.startup["nullius-early-transport-drones"].value
 
 if has_transport_drones then

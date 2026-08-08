@@ -1,14 +1,15 @@
 {
   "name": "nullius-compat-transport-drones-continued",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "factorio_version": "2.0",
   "title": "Nullius Transport Drones Continued Compatibility",
   "author": "Andre Van Der Merwe",
-  "description": "Compatibility between Nullius and Transport Drones Continued",
+  "description": "Compatibility between Nullius and Transport Drones Continued (Fixed)",
   "dependencies": [
     "base >= 2.0",
     "nullius >= 2.0.0",
-    "Transport_Drones_Continued >= 2.0.64",
+    "Transport_Drones_Continued_Fixed >= 2.0.69",
+    "!Transport_Drones_Continued",
     "! Transport_Drones",
     "! Transport_Drones_Meglinge_Fork"
   ]

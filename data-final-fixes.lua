@@ -1,5 +1,14 @@
 local has_transport_drones = mods["Transport_Drones_Continued_Fixed"]
 
+local function has_flag(prototype, flag)
+  for _, prototype_flag in pairs(prototype.flags or {}) do
+    if (prototype_flag == flag) then
+      return true
+    end
+  end
+  return false
+end
+
 local function get_drone_fuel_ingredient_name(recipe)
   if (recipe.ingredients == nil) then return end
   for _,ingredient in pairs(recipe.ingredients) do
@@ -43,10 +52,11 @@ if has_transport_drones then
         if (not mods["quality"]) then
           recipe.allow_quality = false
         end
+        local amount = has_flag(item, "not-stackable") and 1 or 50000
         recipe.results = {
-          {type = "item", name = item.name, amount = 50000, show_details_in_recipe_tooltip = false},
-          {type = "item", name = item.name, amount = 50000, show_details_in_recipe_tooltip = false},
-          {type = "item", name = item.name, amount = 50000, show_details_in_recipe_tooltip = false}
+          {type = "item", name = item.name, amount = amount, show_details_in_recipe_tooltip = false},
+          {type = "item", name = item.name, amount = amount, show_details_in_recipe_tooltip = false},
+          {type = "item", name = item.name, amount = amount, show_details_in_recipe_tooltip = false}
         }
         recipe.energy_required = 600
       elseif (fluid ~= nil) then
